@@ -61,4 +61,4 @@ python rfc2217_server.py
 
 7. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
 
-8. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/{jhonId}
+8. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/jhonId
