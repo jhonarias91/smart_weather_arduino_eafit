@@ -1,6 +1,6 @@
 # Maqueta Smart Weather EAFIT
 
-Docente: Davinson Castañ Cano
+Docente: Davinson Castaño Cano
 
 [Docu](https://isa242.davinsony.com/maqueta/smart-weather/)
 
