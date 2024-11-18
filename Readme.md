@@ -4,7 +4,9 @@ Docente: Davinson Castañ Cano
 
 [Docu](https://isa242.davinsony.com/maqueta/smart-weather/)
 
-![alt text](image.png)
+![Maqueta Smart Weather](maqueta_mart_weather.png)
+
+*Figura 1: Maqueta Smart Weather EAFIT*
 
 ## Conexiones de entrada y salida
 
@@ -19,7 +21,7 @@ Docente: Davinson Castañ Cano
 
 # Ejecución
 
-1. Instalar el simulador Wokwi [Pasos] (https://isa242.davinsony.com/tutorial/simulador/).
+1. Instalar el simulador Wokwi [Pasos](https://isa242.davinsony.com/tutorial/simulador/).
 
 2. Instalar Python 3 y pip (verifica que esté en tu PATH).
 
@@ -37,7 +39,7 @@ pip install pyserial pyserial-asyncio
 ```bash
 python rfc2217_server.py
 ```
-El servidor estará disponible en el puerto 4000.
+   El servidor estará disponible en el puerto 4000.
 
 6. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
 
