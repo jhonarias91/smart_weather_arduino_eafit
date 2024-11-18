@@ -59,6 +59,11 @@ python rfc2217_server.py
 ```
    El servidor estará disponible en el puerto 4000.
 
-7. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
+7. Abre otra termina y ejecuta el webSocket
+```bash
+python websocket-serial.py
+```
 
-8. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/jhonId
+8. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
+
+9. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/jhonId
