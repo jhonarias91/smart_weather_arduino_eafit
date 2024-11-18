@@ -3,7 +3,7 @@ import websocket
 import json
 import threading
 
-id = "myid"  # Puede ser cualquir número, pero debe ser único para cada usuario
+id = "jhonId"  # Puede ser cualquir número, pero debe ser único para cada usuario
 # Verificar el envío de mensajes a través del url https://ws.davinsony.com/{id}
 
 ser = serial.serial_for_url('rfc2217://localhost:4000', baudrate=115200)
