@@ -25,22 +25,40 @@ Docente: Davinson Castañ Cano
 
 2. Instalar Python 3 y pip (verifica que esté en tu PATH).
 
-3. Abrir una terminal y moverte a la carpeta python:
+3. Verifica e instala pip
+```bash
+pip3 --version
+```
+
+Descarga el archivo get-pip.py desde este [enlace](https://bootstrap.pypa.io/get-pip.py).
+
+Abre la terminal en la carpeta donde está el archivo descargado get-pip.py y ejecuta:
+```bash
+python get-pip.py
+```
+
+Vuelve a verificar con:
+```bash
+pip3 --version
+```
+
+4. Abrir una terminal y moverte a la carpeta python:
 ```bash
 cd python
 ```
-4. Instalar las dependencias necesarias:
+
+5. Instalar las dependencias necesarias:
 ```bash
 pip install pyserial pyserial-asyncio
 ```
 
-5. Ejecuta el servidor desde la terminal:
+6. Ejecuta el servidor desde la terminal:
 
 ```bash
 python rfc2217_server.py
 ```
    El servidor estará disponible en el puerto 4000.
 
-6. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
+7. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
 
-7. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/{jhonId}
+8. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/{jhonId}
