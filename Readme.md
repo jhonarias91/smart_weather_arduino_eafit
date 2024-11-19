@@ -67,3 +67,12 @@ python websocket-serial.py
 8. Ve a master/diagram.json y ejecutalo. Deberas recibir en el socket los mensajes enviados por Serial.
 
 9. Tambien puedes verificar si la conunicación funciona en: https://ws.davinsony.com/jhonId
+
+10. Opcional intentar con: 
+ 
+```pip install pyserial websocket-client``` 
+
+verificar si tambien es encesario serial.
+
+
+
