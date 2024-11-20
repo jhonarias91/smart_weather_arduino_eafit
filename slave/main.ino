@@ -5,6 +5,8 @@
 #include <SPI.h>
 #include <WiFi101.h>
 #include "DHT.h"
+#include <ArduinoHttpClient.h>
+
 #define PIN_RED       6   // Pin led rojo
 #define PIN_GREEN     3   // Pin led verde
 #define PIN_BLUE      2   // Pin led azul  
@@ -12,7 +14,10 @@
 
 #define DHTTYPE DHT11     // Usamos el sensor DHT11
 #define PIN_DHT 9         // Pin sensor de temperatura
-//http://192.168.166.214:8080/xbee?msg=pepe
+// Constantes
+const unsigned long postingInterval = 3 * 1000; // Intervalo mínmo para el envio de datos 2*1000 ms
+const unsigned int sensorCount = 3;             // Numero de datos a enviar
+
 DHT dht(PIN_DHT, DHTTYPE); // Se crea el objeto dht
 
 // Variables para la conexión WiFi
@@ -21,11 +26,22 @@ char pass[] = "876543210";       // Network password
 int status = WL_IDLE_STATUS;    // Network status
 
 char xBeeData;
-
-
 int blinkTime = 500;
 int blinkTimeStamp;
 int tmpCentinela = 0;
+boolean isHigh = true;
+float T = 0, H = 0, B = 0; //Var Environment Temperature (t) as float
+
+// Variables
+char* host = "isa.requestcatcher.com"; // No incluir el https://
+char* path = "/post";                  // Path
+int   port = 80;                       // Puerto
+
+WiFiClient wifi;
+HttpClient client = HttpClient(wifi, host, port);
+
+String response;
+int statusCode = 0;
 
 void WiFiInit() {
   // Le damos tiempo al shield WiFi de iniciar:
@@ -55,24 +71,7 @@ void WiFiInit() {
   // Estamos conectados, mostramos la información de la conexión:
   printWifiStatus();
 }
-/////////////////////////////////////////////////// SENDING DATA
 
-#include <ArduinoHttpClient.h>
-
-// Constantes
-const unsigned long postingInterval = 2 * 1000; // Intervalo mínmo para el envio de datos 2*1000 ms
-const unsigned int sensorCount = 3;             // Numero de datos a enviar
-
-// Variables
-char* host = "isa.requestcatcher.com"; // No incluir el https://
-char* path = "/post";                  // Path
-int   port = 80;                       // Puerto
-
-WiFiClient wifi;
-HttpClient client = HttpClient(wifi, host, port);
-
-String response;
-int statusCode = 0;
 
 void POST_send(int sensorCount, char* sensorNames[], float values[]) {
   String contentType = "application/json";
@@ -107,7 +106,6 @@ void POST(float T, float H, float B) {
   }
 }
 
-
 void setup()
 { 
   Serial.begin(115200);
@@ -115,14 +113,11 @@ void setup()
   // Comunicación
   WiFiInit(); // Iniciando la conexión WIFI
 
-pinMode(PIN_RED, OUTPUT);
-pinMode(PIN_GREEN, OUTPUT);
-pinMode(PIN_BLUE, OUTPUT);
-blinkTimeStamp = millis();
+  pinMode(PIN_RED, OUTPUT);
+  pinMode(PIN_GREEN, OUTPUT);
+  pinMode(PIN_BLUE, OUTPUT);
+  blinkTimeStamp = millis();
 }
-
-boolean isHigh = false;
-float T = 0, H = 0, B = 0; //Var Environment Temperature (t) as float
 
 void loop()
 { 
@@ -132,14 +127,14 @@ void loop()
     Serial.println(xBeeData);
     if (xBeeData == 'A'){
         isHigh = true;
+         tmpCentinela = 0;
     }else if (xBeeData == 'O'){
       isHigh = false;
     }
   }
 
   if (isHigh){
-    POST(T, H, B);
-    tmpCentinela = 0;
+    POST(T, H, B);   
     readSensors();
   }else{
     //No need to send anythin
@@ -147,13 +142,10 @@ void loop()
     tmpCentinela = 2;
   }
 checkStatus();
-
 }
 
-readSensors(){
+void readSensors(){
   T = dht.readTemperature();
-  Serial.print("Temperatura: ");
-  Serial.print(T);
   H = dht.readHumidity();
   int valEntrada = analogRead(PIN_BATERIA);  // Leemos la información de la bateria
   B = (float)valEntrada*9.2/1023.0;  // Convertimos la lectura en voltios
@@ -169,6 +161,7 @@ void checkStatus(){
       if (currTime - blinkTimeStamp > blinkTime){
         blinkTimeStamp = currTime;
         tmpCentinela = 1;
+        Serial.println(tmpCentinela);
       }
       break;
     case 1:
@@ -178,9 +171,15 @@ void checkStatus(){
         blinkTimeStamp = currTime;
         tmpCentinela = 0;
       }
+      Serial.println(tmpCentinela);
     break;
     case 2:
       digitalWrite(PIN_GREEN, HIGH);
+      break;
+    default:
+      
+      digitalWrite(PIN_RED, LOW);
+      digitalWrite(PIN_GREEN, LOW);
       break;
   }
 }
